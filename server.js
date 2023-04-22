@@ -8,10 +8,10 @@ const server = http.createServer((req,res)=>{
         ProductsController.get(req,res);
 
     }else if(req.url.match(/\/api\/products\/[0-9]+/)){
-        
+        ProductsController.getById(req,res);
     }
     else{
-        ErrorHandler.Notfind();
+        ErrorHandler.Notfind(res);
     }
     
 }).listen(PORT)
