@@ -10,7 +10,22 @@ async function get(req,res){
         
     }
 }
+
+async function getById(req,res){
+    try{
+        const [,,,id] = req.url.split("/")
+        const products = await ProductsModel.findById(id);
+        res.writeHead(200,{'Content-Type':'application/json'}); 
+        res.write(JSON.stringify(products))
+        res.end()
+    }catch(error){
+        
+    }
+}
+
+
  const ProductsController = {
-    get
+    get,
+    getById
  }
 module.exports = ProductsController;
