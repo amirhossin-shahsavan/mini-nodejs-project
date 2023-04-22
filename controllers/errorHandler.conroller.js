@@ -10,6 +10,6 @@ const Notfind = (res)=>{
 
 const ErrorHandler = {
     Notfind
-};
+}
 
 module.exports = ErrorHandler;  
