@@ -11,6 +11,12 @@ async function findById(id){
     })
 }
 
+async function Creat(product){
+    return new Promise((resolve,reject)=>{
+        products.push(product);
+    })
+}
+
 const ProductsModel = {
     find,
     findById
