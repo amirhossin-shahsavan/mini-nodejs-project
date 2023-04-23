@@ -46,7 +46,6 @@ async function create(req,res){
     }
 }
 
-
 async function update(req,res){
     try{
         const [,,,id] = req.url.split("/")
