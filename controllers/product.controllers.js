@@ -8,7 +8,7 @@ async function get(req,res){
         res.write(JSON.stringify(products))
         res.end()
     }catch(error){
-        
+        console.log(error);
     }
 }
 
@@ -23,13 +23,29 @@ async function getById(req,res){
         res.write(JSON.stringify(products))
         res.end()
     }catch(error){
-        
+        console.log(error);
     }
 }
 
+async function create(req,res){
+    try{
+        await ProductsModel.Creat({
+            id :Date.now(),
+            name : "test",
+            description : "new discription",
+            price : 234.00
+        });
+        res.writeHead(201,{'Content-Type':'application/json'}); 
+        res.write(JSON.stringify({message:'create sucssesfully '}))
+        res.end()
+    }catch(error){
+        console.log(error);
+    }
+}
 
  const ProductsController = {
     get,
-    getById
+    getById,
+    create
  }
 module.exports = ProductsController;
