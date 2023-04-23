@@ -19,6 +19,7 @@ async function Creat(product){
 
 const ProductsModel = {
     find,
-    findById
+    findById,
+    Creat
 }
 module.exports = ProductsModel;
