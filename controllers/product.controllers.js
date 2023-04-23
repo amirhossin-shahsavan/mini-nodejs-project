@@ -1,6 +1,7 @@
 const ProductsModel = require("../model/product.model");
 const ErrorHandler = require("./errorHandler.conroller");
 
+
 async function get(req,res){
     try{
         const products = await ProductsModel.find();
@@ -34,13 +35,12 @@ async function create(req,res){
             body += chunk.toString();
         })
         req.on('end' , async ()=>{
-            const product = {id:Date.now(0, ...JSON.parse(body))}
-        await ProductsModel.Creat(product);
-        res.writeHead(201,{'Content-Type':'application/json'}); 
-        res.write(JSON.stringify({message:'create sucssesfully '}))
-        res.end()
-    })
-        
+            const product = {id:Date.now() , ...JSON.parse(body)}
+            const result = await ProductsModel.Creat(product);
+            res.writeHead(201,{'Content-Type':'application/json'}); 
+            res.write(JSON.stringify(result))
+            res.end()
+        })
     }catch(error){
         console.log(error);
     }
