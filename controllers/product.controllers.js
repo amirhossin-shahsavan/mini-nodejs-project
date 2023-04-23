@@ -29,15 +29,18 @@ async function getById(req,res){
 
 async function create(req,res){
     try{
-        await ProductsModel.Creat({
-            id :Date.now(),
-            name : "test",
-            description : "new discription",
-            price : 234.00
-        });
+        let body = '';
+        req.on('data' , (chunk) =>{
+            body += chunk.toString();
+        })
+        req.on('end' , async ()=>{
+            const product = {id:Date.now(0, ...JSON.parse(body))}
+        await ProductsModel.Creat(product);
         res.writeHead(201,{'Content-Type':'application/json'}); 
         res.write(JSON.stringify({message:'create sucssesfully '}))
         res.end()
+    })
+        
     }catch(error){
         console.log(error);
     }
