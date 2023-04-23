@@ -69,10 +69,28 @@ async function update(req,res){
     }
 }
 
+async function deleted(req,res){
+    try{
+        const [,,,id] = req.url.split("/")
+        const product = await ProductsModel.findById(id);
+        if(!product){
+            ErrorHandler.NotfindProduct(res)
+        }else{
+            const result = await ProductsModel.Delete(id);
+            res.writeHead(200,{'Content-Type':'application/json'}); 
+            res.write(JSON.stringify(result))
+            res.end()
+        }
+    }catch(error){
+        console.log(error);
+    }
+}
+
  const ProductsController = {
     get,
     getById,
     create,
-    update
+    update,
+    deleted
  }
 module.exports = ProductsController;
