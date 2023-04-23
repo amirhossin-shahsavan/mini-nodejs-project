@@ -8,8 +8,19 @@ const Notfind = (res)=>{
     res.end()
 }
 
+const NotfindProduct = (res)=>{
+    res.writeHead(404,{
+        'Content-Type':'application/json'
+    }); 
+    res.write(JSON.stringify({
+        message:'Not Find Any Product'
+    }))
+    res.end()
+}
+
 const ErrorHandler = {
-    Notfind
+    Notfind,
+    NotfindProduct
 }
 
 module.exports = ErrorHandler;  
