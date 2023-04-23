@@ -36,10 +36,21 @@ async function Update(id , payload){
     })
 }
 
+async function Delete(id){
+    return new Promise((resolve,reject)=>{
+        const newList = products.filter(product => product.id != id)
+        fs.writeFile(`${process.cwd()}/data/products.json`, JSON.stringify(newList), (err)=>{
+            if(err){reject(err)}
+            else{resolve({message:'deleted product sucsessfull'})}
+        })
+    })
+}
+
 const ProductsModel = {
     find,
     findById,
     Creat,
-    Update
+    Update,
+    Delete
 }
 module.exports = ProductsModel;
