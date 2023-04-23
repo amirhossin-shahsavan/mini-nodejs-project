@@ -46,9 +46,34 @@ async function create(req,res){
     }
 }
 
+
+async function update(req,res){
+    try{
+        const [,,,id] = req.url.split("/")
+        let body = '';
+        req.on('data' , (chunk) =>{
+            body += chunk.toString();
+        })
+        req.on('end' , async ()=>{
+            const ParsedBody = {...JSON.parse(body)}
+            const Product = await ProductsModel.findById(id)
+            if(!Product){ErrorHandler.Notfind()}
+            else{
+
+                const result = await ProductsModel.Update(id , ParsedBody);
+                res.writeHead(201,{'Content-Type':'application/json'}); 
+                res.write(JSON.stringify(result))
+                res.end()}
+        })
+    }catch(error){
+        console.log(error);
+    }
+}
+
  const ProductsController = {
     get,
     getById,
-    create
+    create,
+    update
  }
 module.exports = ProductsController;
