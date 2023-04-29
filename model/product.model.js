@@ -32,7 +32,7 @@ async function Update(id , payload){
     const db = await new ConnectToMongoDB().Get();
     return new Promise(async(resolve,reject)=>{
         const result = await db.collection(ProductCollection).UpdateOne({_id: new ObjectId(id)} , {
-            $set : {...product}
+            $set : {...payload}
         });
        resolve(result);
     })
