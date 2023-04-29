@@ -28,11 +28,11 @@ class ConnectToMongoDB{
     }
 }
 
-async function main(){
-    const db = await new ConnectToMongoDB().Get();
-    const users = await db.collection('user').find({}).toArray();
-    console.log(users);
-}
+// async function main(){
+//     const db = await new ConnectToMongoDB().Get();
+//     const users = await db.collection('user').find({}).toArray();
+//     console.log(users);
+// }
 
-main();
+//main();
 
