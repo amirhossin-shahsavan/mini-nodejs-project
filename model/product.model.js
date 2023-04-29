@@ -1,48 +1,48 @@
 const products = require('./../data/products.json');
 const fs = require('fs');
+const ConnectToMongoDB = require('./../utils/mongoconnection')
+const { ObjectId } = require('mongodb')
+const ProductCollection = 'product'
 
 async function find(){
-    return new Promise((resolve,reject)=>{
+    const db = await new ConnectToMongoDB().Get();
+    return new Promise(async(resolve,reject)=>{
+        const products = await db.collection(ProductCollection).find({} , {sort :{ _id:-1}}).toArray();
         resolve(products);
     })
 }
 
 async function findById(id){
-    return new Promise((resolve,reject)=>{
-        resolve(products.find(product => product.id == id));
+    const db = await new ConnectToMongoDB().Get();
+    return new Promise(async(resolve,reject)=>{
+        const product = await db.collection(ProductCollection).findOne({_id :new ObjectId(id)}) 
+        resolve(product);
     })
 }
 
 async function Creat(product){
-    return new Promise((resolve,reject)=>{
-        products.push(product);
-        fs.writeFile(`${process.cwd()}/data/products.json`, JSON.stringify(products), (err)=>{
-            if(err){reject(err)}
-            else{resolve({message:'new product created' , data: product})}
-        })
+    const db = await new ConnectToMongoDB().Get();
+    return new Promise(async(resolve,reject)=>{
+       const result = await db.collection(ProductCollection).insertOne(product);
+       resolve(result);
     })
 }
 
 async function Update(id , payload){
-    return new Promise((resolve,reject)=>{
-        products.map(product => {
-            if(product.id == id){Object.assign(product,payload)}
-            return product
-        })
-        fs.writeFile(`${process.cwd()}/data/products.json`, JSON.stringify(products), (err)=>{
-            if(err){reject(err)}
-            else{resolve({message:'product updated'})}
-        })
+    const db = await new ConnectToMongoDB().Get();
+    return new Promise(async(resolve,reject)=>{
+        const result = await db.collection(ProductCollection).UpdateOne({_id: new ObjectId(id)} , {
+            $set : {...product}
+        });
+       resolve(result);
     })
 }
 
 async function Delete(id){
-    return new Promise((resolve,reject)=>{
-        const newList = products.filter(product => product.id != id)
-        fs.writeFile(`${process.cwd()}/data/products.json`, JSON.stringify(newList), (err)=>{
-            if(err){reject(err)}
-            else{resolve({message:'deleted product sucsessfull'})}
-        })
+    const db = await new ConnectToMongoDB().Get();
+    return new Promise(async(resolve,reject)=>{
+        const result = await db.collection(ProductCollection).DeleteOne({_id: new ObjectId(id)});
+       resolve(result);
     })
 }
 
