@@ -1,7 +1,7 @@
 const {MongoClient} = require('mongodb');
 
 class ConnectToMongoDB{
-    #DB_URI = 'mongodb://127.0.0.1/mongodb-tutorials';
+    #DB_URI = 'mongodb://127.0.0.1/node-singelton';
     #db = null;
     async #connect(){
         try{
